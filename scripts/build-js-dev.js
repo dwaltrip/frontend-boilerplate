@@ -6,13 +6,14 @@ var fs = require('fs');
 var babelify = require('babelify');
 
 var ROOT_DIR = path.join(__dirname, '../');
-var OUTPATH = path.join(ROOT_DIR, '/www/dist/bundle.js');
+var SRC_DIR = path.join(ROOT_DIR, 'www');
+var OUTPATH = path.join(SRC_DIR, 'dist/bundle.js');
 
 function initBrowserify(options) {
   var options = options || {};
-  options.paths = [path.join(ROOT_DIR, 'www/js')];
+  options.paths = [path.join(SRC_DIR, 'js')];
   options.debug = true;
-  return browserify(path.join(ROOT_DIR, 'www/js/init.js'), options);
+  return browserify(path.join(SRC_DIR, 'js/init.js'), options);
 }
 
 function setupES6Transpile(b) {
@@ -36,5 +37,6 @@ module.exports = {
   setupES6Transpile: setupES6Transpile,
   buildBundle: buildBundle,
   ROOT_DIR: ROOT_DIR,
+  SRC_DIR: SRC_DIR,
   OUTPATH: OUTPATH
 };

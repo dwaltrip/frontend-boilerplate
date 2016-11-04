@@ -11,6 +11,7 @@ var watchify = require('watchify');
 // re-use build steps from (non-watchified) build script
 var buildSteps = require('./build-js-dev');
 var ROOT_DIR = buildSteps.ROOT_DIR;
+var SRC_DIR = buildSteps.SRC_DIR;
 var OUTPATH = buildSteps.OUTPATH;
 
 // cache and packageCache enable incremental builds in watchify
@@ -20,8 +21,8 @@ var b = buildSteps.initBrowserify({ cache: {}, packageCache: {} });
 b.plugin(watchify, {
   ignoreWatch: [
     path.join(ROOT_DIR, '**/node_modules/**'),
-    path.join(ROOT_DIR, 'www/styles/*'),
-    path.join(ROOT_DIR, 'www/dist/*')
+    path.join(SRC_DIR, 'styles/*'),
+    path.join(SRC_DIR, 'dist/*')
   ]
 });
 b.on('update', function() { buildSteps.buildBundle(b); });
@@ -46,7 +47,6 @@ buildSteps.buildBundle(b);
 
 
 // utility functions
-
 function logMessage(msg) {
   if (wasPreviousBuildBroken) {
     wasPreviousBuildBroken = false;
@@ -55,7 +55,6 @@ function logMessage(msg) {
   }
   console.log(msg);
 }
-
 function notify(message) {
   notifier.notify({
     title: 'Browserify',
